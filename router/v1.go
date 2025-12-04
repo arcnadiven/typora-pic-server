@@ -9,6 +9,6 @@ func Init(engine *gin.Engine) {
 	v1Grp := engine.Group("v1")
 	{
 		v1Grp.PUT("/upload", service.Upload)
-		v1Grp.GET("/images/:name", service.Images)
+		v1Grp.GET("/images/:dir/:name", service.Images)
 	}
 }
