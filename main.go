@@ -8,5 +8,7 @@ import (
 func main() {
 	engine := gin.Default()
 	api.AddRouter(engine)
-	engine.Run(":8008")
+	if err := engine.Run(":8008"); err != nil {
+		panic(err)
+	}
 }
