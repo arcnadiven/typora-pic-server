@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"github.com/arcnadiven/GoUtils/logger"
+	"github.com/arcnadiven/typora-pic-server/pkg/enum"
 	"github.com/astaxie/beego/utils"
 	"github.com/gin-gonic/gin"
 	"io"
@@ -12,10 +13,6 @@ import (
 	"os"
 	"path/filepath"
 	"time"
-)
-
-var (
-	workDir = filepath.Join(os.Getenv("HOME"), ".picture")
 )
 
 func Upload(ctx *gin.Context) {
@@ -27,7 +24,7 @@ func Upload(ctx *gin.Context) {
 
 	// 初始化 workDir
 	month := time.Now().Format("200601")
-	dir := filepath.Join(workDir, month)
+	dir := filepath.Join(enum.WorkDir, month)
 	if !utils.FileExists(dir) {
 		if err := os.MkdirAll(dir, os.ModeDir|0755); err != nil {
 			logger.Errorln(err)
@@ -50,14 +47,14 @@ func Upload(ctx *gin.Context) {
 		return
 	}
 
-	resp := fmt.Sprintf("http://%s/v1/images/%s/%s", ctx.Request.Host, month, fileName) + "\n"
+	resp := fmt.Sprintf("http://%s/api/v1/images/%s/%s", ctx.Request.Host, month, fileName) + "\n"
 	ctx.String(http.StatusOK, resp)
 }
 
 func Images(ctx *gin.Context) {
 	dir := ctx.Param("dir")
 	name := ctx.Param("name")
-	file, err := os.Open(filepath.Join(workDir, dir, name))
+	file, err := os.Open(filepath.Join(enum.WorkDir, dir, name))
 	if err != nil {
 		logger.Errorln(err)
 		return

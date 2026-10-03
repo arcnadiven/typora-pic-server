@@ -3,6 +3,7 @@ package syncer
 import (
 	"encoding/json"
 	"github.com/arcnadiven/GoUtils/logger"
+	"github.com/arcnadiven/typora-pic-server/pkg/enum"
 	"github.com/arcnadiven/typora-pic-server/pkg/syncer/zspace"
 	"github.com/arcnadiven/typora-pic-server/pkg/utils"
 	"github.com/dromara/carbon/v2"
@@ -10,7 +11,6 @@ import (
 	"github.com/robfig/cron/v3"
 	"os"
 	"path/filepath"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -36,54 +36,13 @@ func sync() {
 
 func doSync() error {
 	pathList := []string{
-		"/Users/macintosh/Desktop/doc",
-		//"/Users/macintosh/.picture",
-	}
-
-	remoteDir := "/sata11/my/data/note"
-
-	vuex, err := zspace.LoadCredentials()
-	if err != nil {
-		return err
-	}
-	listRets, err := zspace.FileList(vuex, remoteDir)
-	if err != nil {
-		return err
-	}
-	dict1 := map[string]zspace.ZSpaceFile{}
-	for _, ret := range listRets.Data.List {
-		dict1[ret.Name] = ret
+		enum.WorkDir,
 	}
 
 	for _, path := range pathList {
-		remoteFile := filepath.Base(path) + ".tar.gz"
-		localModTime, err := GetModTime(path)
-		if err != nil {
+		if err := zspace.Sync(path, filepath.Base(path)); err != nil {
 			return err
 		}
-		zspaceFile, ok := dict1[remoteFile]
-
-		if !ok {
-			if err := CompressAndSave(vuex, path, remoteDir+"/"+remoteFile); err != nil {
-				return err
-			}
-		} else {
-			remoteModTime, err := strconv.ParseInt(zspaceFile.ModifyTime, 10, 64)
-			if err != nil {
-				return err
-			}
-			if localModTime.After(time.Unix(remoteModTime, 0)) {
-				if err := CompressAndSave(vuex, path, remoteDir+"/"+remoteFile); err != nil {
-					return err
-				}
-			} else if localModTime.Before(time.Unix(remoteModTime, 0)) {
-				// TODO: DownloadAndUnCompress
-				if err := DownloadAndUnCompress(vuex, path+".tar.gz", remoteDir+"/"+remoteFile); err != nil {
-					return err
-				}
-			}
-		}
-
 	}
 	return nil
 }

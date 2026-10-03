@@ -8,6 +8,10 @@ type CommonFields struct {
 	Suggest string `json:"suggest"`
 }
 
+func (f *CommonFields) Exist() bool {
+	return f.Msg != "文件不存在"
+}
+
 type ZSpaceVuex struct {
 	State struct {
 		App struct {
@@ -358,5 +362,70 @@ type ZSpaceFileRemove struct {
 			ErrorSave           string        `json:"error_save"`
 			FileHashCheckOption string        `json:"file_hash_check_option"`
 		} `json:"task"`
+	} `json:"data"`
+}
+
+type ZSpaceFileNewDir struct {
+	CommonFields
+	Data struct {
+		Name              string `json:"name"`
+		Path              string `json:"path"`
+		IsSys             string `json:"is_sys"`
+		IsDir             string `json:"is_dir"`
+		Type              string `json:"type"`
+		CreatedBy         string `json:"created_by"`
+		DoubleWrite       string `json:"double_write"`
+		DoubleWriteStatus string `json:"double_write_status"`
+		DoubleWriteTime   string `json:"double_write_time"`
+		Fnum              string `json:"fnum"`
+		Vnum              string `json:"vnum"`
+		Inum              string `json:"inum"`
+		Anum              string `json:"anum"`
+		Comnum            string `json:"comnum"`
+		Appnum            string `json:"appnum"`
+		Docnum            string `json:"docnum"`
+		Dirnum            string `json:"dirnum"`
+		Tfnum             string `json:"tfnum"`
+		Tvnum             string `json:"tvnum"`
+		Tinum             string `json:"tinum"`
+		Tanum             string `json:"tanum"`
+		Tcomnum           string `json:"tcomnum"`
+		Tappnum           string `json:"tappnum"`
+		Tdocnum           string `json:"tdocnum"`
+		Tdirnum           string `json:"tdirnum"`
+		Size              string `json:"size"`
+		Width             string `json:"width"`
+		Height            string `json:"height"`
+		Ori               string `json:"ori"`
+		Duration          string `json:"duration"`
+		Ftype             string `json:"ftype"`
+		Longitude         string `json:"longitude"`
+		Latitude          string `json:"latitude"`
+		FileHash          string `json:"file_hash"`
+		UserID            string `json:"user_id"`
+		Username          string `json:"username"`
+		Nshare            string `json:"nshare"`
+		Ext               string `json:"ext"`
+		Crtime            string `json:"crtime"`
+		Brtime            string `json:"brtime"`
+		Dctime            string `json:"dctime"`
+		Sttime            string `json:"sttime"`
+		ModifyTime        string `json:"modify_time"`
+		ChangeTime        string `json:"change_time"`
+		AccessTime        string `json:"access_time"`
+		Permission        int    `json:"permission"`
+		Labels            string `json:"labels"`
+		Favorite          bool   `json:"favorite"`
+		Encrypted         string `json:"encrypted"`
+		EncryptIcon       string `json:"encrypt_icon"`
+		OriginalPath      string `json:"original_path"`
+		PinTime           int    `json:"pin_time"`
+		MediaGroupUUID    string `json:"media_group_uuid"`
+		ContentIdentifier string `json:"content_identifier"`
+		HasVideo          int    `json:"has_video"`
+		FileNote          string `json:"file_note"`
+		FileDeleted       string `json:"file_deleted"`
+		Mori              string `json:"mori"`
+		OffsetTime        string `json:"offset_time"`
 	} `json:"data"`
 }

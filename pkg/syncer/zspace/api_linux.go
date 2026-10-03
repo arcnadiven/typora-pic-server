@@ -7,12 +7,9 @@ import (
 	"path/filepath"
 )
 
+// LoadCredentials implement for OS WSL
 func LoadCredentials() (*ZSpaceVuex, error) {
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		return nil, errors.WithStack(err)
-	}
-	data, err := os.ReadFile(filepath.Join(homeDir, "AppData", "Roaming", "zspace", "vuex.json"))
+	data, err := os.ReadFile(filepath.Join("/", "mnt", "c", "Users", "14028", "AppData", "Roaming", "zspace", "vuex.json"))
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
