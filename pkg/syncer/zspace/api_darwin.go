@@ -2,18 +2,9 @@ package zspace
 
 import (
 	"encoding/json"
-	"fmt"
-	utilshttp "github.com/arcnadiven/GoUtils/http"
-	"github.com/arcnadiven/GoUtils/logger"
-	"github.com/arcnadiven/typora-pic-server/pkg/utils"
 	"github.com/pkg/errors"
-	"net/http"
-	"net/url"
 	"os"
 	"path/filepath"
-	"strconv"
-	"strings"
-	"time"
 )
 
 func LoadCredentials() (*ZSpaceVuex, error) {

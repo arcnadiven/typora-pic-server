@@ -5,6 +5,7 @@ import (
 	"github.com/pkg/errors"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"time"
 )
@@ -37,6 +38,12 @@ func Sync(localPath, remotePath string) error {
 				return errors.WithStack(err)
 			}
 			for _, subPath := range subPaths {
+				// 忽略掉 MacOS 下的 .DS_Store 文件夹
+				if runtime.GOOS == "darwin" {
+					if subPath.Name() == ".DS_Store" {
+						continue
+					}
+				}
 				logger.Infof("path: %s, subPath: %s", localPath, subPath.Name())
 				if err := Sync(filepath.Join(localPath, subPath.Name()), filepath.Join(remotePath, subPath.Name())); err != nil {
 					return err

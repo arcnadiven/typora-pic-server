@@ -1,9 +1,13 @@
 package zspace
 
-import "testing"
+import (
+	"github.com/arcnadiven/typora-pic-server/pkg/enum"
+	"path/filepath"
+	"testing"
+)
 
 func Test_Sync(t *testing.T) {
-	if err := Sync("/mnt/c/Users/14028/Desktop/Wallpaper", "Wallpaper"); err != nil {
+	if err := Sync(enum.WorkDir, filepath.Base(enum.WorkDir)); err != nil {
 		t.Fatal(err)
 	}
 }
